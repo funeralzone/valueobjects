@@ -10,7 +10,11 @@ final class NonNullISBN implements ISBN
 {
     use StringTrait;
 
-    public function __construct($string)
+    /**
+     * NonNullISBN constructor.
+     * @param string $string
+     */
+    public function __construct(string $string)
     {
         // TODO: Check valid ISBN
         $this->string = $string;

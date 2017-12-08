@@ -11,7 +11,11 @@ final class NonNullAuthor implements Author
 {
     use StringTrait;
 
-    public function __construct($string)
+    /**
+     * NonNullAuthor constructor.
+     * @param string $string
+     */
+    public function __construct(string $string)
     {
         Assert::that($string)->notEmpty();
         $this->string = $string;

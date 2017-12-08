@@ -92,6 +92,10 @@ abstract class SetOfValueObjects extends ImmutableArrayOf implements ValueObject
         })));
     }
 
+    /**
+     * @param array $input
+     * @return array
+     */
     private static function uniqueInput(array $input): array
     {
         $values = [];
@@ -106,6 +110,10 @@ abstract class SetOfValueObjects extends ImmutableArrayOf implements ValueObject
         });
     }
 
+    /**
+     * @param array $input
+     * @return array
+     */
     private static function hashValues(array $input): array
     {
         return array_map(function ($item) {
@@ -113,6 +121,10 @@ abstract class SetOfValueObjects extends ImmutableArrayOf implements ValueObject
         }, $input);
     }
 
+    /**
+     * @param $valueObject
+     * @return string
+     */
     private static function hashOfValue($valueObject): string
     {
         return md5(serialize($valueObject));

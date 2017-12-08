@@ -31,6 +31,9 @@ trait CompositeTrait
         return $this->propertiesToArray();
     }
 
+    /**
+     * @return array
+     */
     private function propertiesToArray(): array
     {
         return get_object_vars($this);

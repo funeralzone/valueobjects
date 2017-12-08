@@ -11,6 +11,10 @@ trait EmailTrait
 {
     use StringTrait;
 
+    /**
+     * EmailTrait constructor.
+     * @param string $string
+     */
     public function __construct(string $string)
     {
         Assert::that($string)->email($string);
