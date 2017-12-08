@@ -16,6 +16,22 @@ composer require funeralzone/valueobjects
 
 Coming soon.
 
-## How this library helps ##
+## This library's approach ##
+
+Coming soon.
+
+## Single value object ##
+
+Coming soon.
+
+## Composite value objects ##
+
+Coming soon.
+
+## Sets of value objects ##
+
+Coming soon.
+
+## Enums ##
 
 Coming soon.
