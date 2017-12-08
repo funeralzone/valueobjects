@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace Funeralzone\ValueObjects\Examples\Book;
 
 use Assert\Assert;
-use Funeralzone\ValueObjects\Scalars\String\BooleanTrait;
+use Funeralzone\ValueObjects\Scalars\StringTrait;
 
 final class NonNullAuthor implements Author
 {
-    use BooleanTrait;
+    use StringTrait;
 
     public function __construct($string)
     {
