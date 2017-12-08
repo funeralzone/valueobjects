@@ -1,0 +1,26 @@
+{
+  "name": "funeralzone/valueobjects",
+  "description": "A set of traits for use in your value objects.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Chris Harrison",
+      "email": "c.harrison1988@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1.0",
+    "beberlei/assert": "^2.7",
+    "chrisharrison/php-array-of": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6.2",
+    "mockery/mockery": "^1.0",
+    "squizlabs/php_codesniffer": "^3.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Funeralzone\\ValueObjects\\": "src/"
+    }
+  }
+}
