@@ -46,11 +46,13 @@ abstract class Nullable implements ValueObject
         $nonNullImplementation = static::nonNullImplementation();
         $nullImplementation = static::nullImplementation();
 
-        //Based on whether the native value is null, return an instance of either the nonNull/null implementation of the V.O.
+        //Based on whether the native value is null, wrap an instance of either the nonNull/null implementation of the V.O.
         if ($native === null) {
-            return call_user_func($nullImplementation . '::fromNative', $native);
+            $nullObject = call_user_func($nullImplementation . '::fromNative', $native);
+            return new static($nullObject);
         } else {
-            return call_user_func($nonNullImplementation . '::fromNative', $native);
+            $nonNullObject = call_user_func($nonNullImplementation . '::fromNative', $native);
+            return new static($nonNullObject);
         }
     }
 

@@ -62,13 +62,13 @@ final class NullableTest extends TestCase
     public function test_from_native_creates_a_null_object_when_receiving_null()
     {
         $test = _Nullable::fromNative(null);
-        $this->assertInstanceOf(_NullImplementation::class, $test);
+        $this->assertEquals('null-implementation', $test->toNative());
     }
 
     public function test_from_native_creates_a_non_null_object_when_receiving_non_null()
     {
         $test = _Nullable::fromNative('');
-        $this->assertInstanceOf(_NonNullImplementation::class, $test);
+        $this->assertEquals('non-null-implementation', $test->toNative());
     }
 }
 
@@ -108,7 +108,7 @@ final class _NullImplementation implements TestObject
 
     public function toNative()
     {
-        throw new \Exception('This is just a test.');
+        return 'null-implementation';
     }
 }
 
@@ -131,6 +131,6 @@ final class _NonNullImplementation implements TestObject
 
     public function toNative()
     {
-        throw new \Exception('This is just a test.');
+        return 'non-null-implementation';
     }
 }
