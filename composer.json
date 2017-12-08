@@ -1,6 +1,6 @@
 {
   "name": "funeralzone/valueobjects",
-  "description": "A set of traits for use in your value objects.",
+  "description": "A PHP 7.1 value objects helper library.",
   "license": "MIT",
   "authors": [
     {
