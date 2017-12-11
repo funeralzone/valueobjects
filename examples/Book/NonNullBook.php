@@ -54,8 +54,8 @@ final class NonNullBook implements Book
     public static function fromNative($native)
     {
         return new static(
-            new NonNullAuthor($native['author']),
-            new NonNullISBN($native['isbn'])
+            NonNullAuthor::fromNative($native['author']),
+            NonNullISBN::fromNative($native['isbn'])
         );
     }
 }
