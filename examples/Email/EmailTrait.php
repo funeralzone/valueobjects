@@ -17,7 +17,7 @@ trait EmailTrait
      */
     public function __construct(string $string)
     {
-        Assert::that($string)->email($string);
+        Assert::that($string)->email();
         $this->string = $string;
     }
 }
