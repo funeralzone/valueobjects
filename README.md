@@ -125,6 +125,10 @@ In our case, a user's email has other domain logic that we can encapsulate in ou
 ...
 ```
 
+You can see an example of how to implement single value objects under:
+
+*examples/Email*
+
 ## Composite value objects ##
 
 Coming soon.
