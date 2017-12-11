@@ -21,7 +21,7 @@ $location1 = new Location(1.2902, 103.8519);
 $location2 = new Location(1.2902, 103.8519);
 ```
 
-`$location1` and `$location2` are considered equal because they both have the same latitude and longitude. The definition of a `Location` is purely based on its value. If the values change, it is a new location.
+`$location1` and `$location2` are considered equal because they both have the same latitude and longitude. The definition of a `Location` is purely based on its value. If the values change, it's a new location.
 
 ```php
 $userId = 9302;
@@ -58,7 +58,7 @@ class UserId extends GenericIdObject {
 ...
 ```
 
-But your VO is still being influenced by the underlying generic VO you're inheriting from. From a typing point of view, your `UserId` is still of the `GenericIdObject` type. It shouldn't be. `UserId` should be a pure type.
+But your VO is still being influenced by the underlying generic VO you're inheriting from. `UserId` is still of the `GenericIdObject` type. It shouldn't be. `UserId` should be a pure type.
 
 Our VO library attempts to solve this issue by taking a different approach. Instead of supplying you with lots of generic VOs you can extend from, we give you the tools to create your own pure VOs from scratch. This is mainly achieved through the use of:
 
@@ -82,7 +82,7 @@ interface ValueObject
 
 All you have to do to create a new VO is write a class which implements the `ValueObject` interface. You don't extend from anywhere else. You don't have to write large amounts of code to conform to a bloated interface.
 
-Of course, if your domain is dealing with lots of numbers, you don't want to have to keep coding the same logic hundreds of times. So we've provided you with some traits which implement some or all of the interface. You can find them under:
+Of course, if your domain is dealing with the same types of value over and over again, you don't want to have to keep coding the same logic hundreds of times. So we've provided you with some traits which implement some or all of the interface. You can find them under:
 
 *src/Scalars*
 
