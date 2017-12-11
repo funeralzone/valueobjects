@@ -177,7 +177,35 @@ You can see an example of how to implement composite objects in the examples dir
 
 ## Sets of value objects ##
 
-A set of value ob
+A set of value objects can be represented by leveraging the `SetOfValueObjects` abstract class.
+
+```php
+final class SetOfLocations extends SetOfValueObjects implements ValueObject
+{
+    protected function typeToEnforce(): string
+    {
+        return Location::class;
+    }
+
+    public static function valuesShouldBeUnique(): bool
+    {
+        return true;
+    }
+}
+```
+
+A set of value objects is itself a `ValueObject` and implements all of the standard methods.
+
+There are two abstract methods that need to be implemented.
+
+* `typeToEnforce` should return a string of the class name of the value object that you want to make a set of.
+* `valuesShouldBeUnique` should return a boolean representing whether you want to force the set to be unique.
+
+If the set is set to unique, if duplicate values are added to the set (at instantiation or through the `add` method) the duplicates are filtered out.
+
+### Usage of a set ###
+
+Coming soon.
 
 ## Nulls, NonNulls and Nullables ##
 
