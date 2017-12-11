@@ -125,17 +125,59 @@ In our case, a user's email has other domain logic that we can encapsulate in ou
 ...
 ```
 
-You can see an example of how to implement single value objects under:
-
-*examples/Email*
+You can see an example of how to implement single value objects in the examples directory.
 
 ## Composite value objects ##
 
-Coming soon.
+A composite value object is a more complex value which is made from other values.
+
+```php
+final class Location implements ValueObject
+{
+    use CompositeTrait;
+    
+    private $latitude;
+    private $longitude;
+    
+    public function __construct(Latitude $latitude, Longitude $longitude)
+    {
+        $this->latitude = $latitude;
+        $this->longitude = $longitude;
+    }
+    
+    public function getLatitude(): Latitude
+    {
+        return $this->latitude;
+    }
+    
+    public function getLongitude(): Longitude
+    {
+        return $this->longitude;
+    }
+...
+```
+
+A `Location` is made up of two VOs (latitude, longitude). We've provided a `CompositeTrait` to easily implement most of the `ValueObject` interface automatically. It handles `toNative` serialistation by using reflection to return an array of all the class properties.
+
+The `CompositeTrait` does not implement `fromNative`. We leave the construction of your object up to you.
+
+```php
+...
+    public static function fromNative($native)
+    {
+        return new static(
+            Latitude::fromNative($native['latitude']),
+            Longitude::fromNative($native['longitude'])
+        );
+    }
+...
+```
+
+You can see an example of how to implement composite objects in the examples directory.
 
 ## Sets of value objects ##
 
-Coming soon.
+A set of value ob
 
 ## Nulls, NonNulls and Nullables ##
 
