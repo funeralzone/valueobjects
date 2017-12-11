@@ -66,6 +66,7 @@ Our VO library attempts to solve this issue by taking a different approach. Inst
 * a set of PHP traits you can use to help implement the interface
 
 This is the interface:
+
 ```php
 interface ValueObject
 {
@@ -92,7 +93,37 @@ But at no point while using this library will you be able to inherit from some o
 
 ## Single value object ##
 
-Coming soon.
+If your VO encapsulates a single value, it's most likely a scalar. We've provided some traits to deal with scalars under:
+
+*src/Scalars*
+
+Let's say you have a domain value called 'User Email'. You'd create a class which implements the `ValueObject` interface:
+
+```php
+final class UserEmail implements ValueObject {
+...
+```
+
+You now need to implement the interface. But because an email can essentially be considered a special kind of string (in this simple case) the `StringTrait` helper trait can implement most of the interface for you:
+
+```php
+final class UserEmail implements ValueObject {
+
+    use StringTrait;
+...
+```
+
+In our case, a user's email has other domain logic that we can encapsulate in our VO. User emails have to be a valid email:
+
+```php
+...
+    public function __construct(string $string)
+    {
+        Assert::that($string)->email();
+        $this->string = $string;
+    }
+...
+```
 
 ## Composite value objects ##
 
