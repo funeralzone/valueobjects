@@ -10,6 +10,7 @@ use Funeralzone\ValueObjects\TestClasses\NonUniqueSet;
 use Funeralzone\ValueObjects\TestClasses\SetOfNonValueObjects;
 use Funeralzone\ValueObjects\TestClasses\TestValueObject;
 use Funeralzone\ValueObjects\TestClasses\UniqueSet;
+use Funeralzone\ValueObjects\ValueObject;
 use PHPUnit\Framework\TestCase;
 use Exception;
 
@@ -83,7 +84,7 @@ final class SetOfValueObjectsTest extends TestCase
         $this->assertEquals('value-2', $value1->toNative());
     }
 
-    public function test_can_merge_new_values()
+    public function test_can_add_new_values()
     {
         $original = new NonUniqueSet([
             TestValueObject::fromNative('value-1'),
@@ -155,5 +156,35 @@ final class SetOfValueObjectsTest extends TestCase
         ]);
 
         $this->assertFalse($test1->isSame($test2));
+    }
+
+    public function test_when_values_are_added_duplicates_are_filtered_if_unique_is_set_to_true()
+    {
+        $start = new UniqueSet([
+            TestValueObject::fromNative(100),
+            TestValueObject::fromNative(200),
+        ]);
+
+        $add = new NonUniqueSet([
+            TestValueObject::fromNative(100),
+            TestValueObject::fromNative(100),
+            TestValueObject::fromNative(300),
+            TestValueObject::fromNative(300),
+        ]);
+        
+        $test = $start->add($add);
+
+        $this->assertEquals(3, count($test));
+
+        /* @var ValueObject $value0 */
+        /* @var ValueObject $value1 */
+        /* @var ValueObject $value2 */
+        $value0 = $test[0];
+        $value1 = $test[1];
+        $value2 = $test[2];
+
+        $this->assertEquals(100, $value0->toNative());
+        $this->assertEquals(200, $value1->toNative());
+        $this->assertEquals(300, $value2->toNative());
     }
 }

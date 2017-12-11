@@ -21,7 +21,7 @@ abstract class SetOfValueObjects extends ImmutableArrayOf implements ValueObject
         }
 
         if (static::valuesShouldBeUnique()) {
-            $input = self::uniqueInput($input);
+            $input = static::uniqueInput($input);
         }
 
         parent::__construct($input);
@@ -85,49 +85,43 @@ abstract class SetOfValueObjects extends ImmutableArrayOf implements ValueObject
      */
     public function remove($set)
     {
-        $removeValues = self::hashValues((array) $set);
+        $output = $this;
+        foreach ((array) $set as $object) {
+            $output = $output->removeByValue($object);
+        }
+        return $output;
+    }
 
-        return new static(array_values(array_filter((array) $this, function ($valueObject) use ($removeValues) {
-            return !in_array(self::hashOfValue($valueObject), $removeValues);
+    /**
+     * @param ValueObject $object
+     * @return static
+     */
+    private function removeByValue(ValueObject $object)
+    {
+        return new static(array_values(array_filter((array) $this, function (ValueObject $compare) use ($object) {
+            return (!$compare->isSame($object));
         })));
     }
 
-    /**
-     * @param array $input
-     * @return array
-     */
     private static function uniqueInput(array $input): array
     {
-        $values = [];
-        return array_filter($input, function ($item) use (&$values) {
-            $hash = self::hashOfValue($item);
-            if (in_array($hash, $values)) {
-                return false;
-            } else {
-                $values[] = $hash;
-                return true;
+        $unique = [];
+
+        foreach ($input as $object) {
+            /* @var ValueObject $object */
+            $match = false;
+            foreach ($unique as $compare) {
+                /* @var ValueObject $compare */
+                if ($object->isSame($compare)) {
+                    $match = true;
+                }
             }
-        });
-    }
+            if (!$match) {
+                $unique[] = $object;
+            }
+        }
 
-    /**
-     * @param array $input
-     * @return array
-     */
-    private static function hashValues(array $input): array
-    {
-        return array_map(function ($item) {
-            return self::hashOfValue($item);
-        }, $input);
-    }
-
-    /**
-     * @param $valueObject
-     * @return string
-     */
-    private static function hashOfValue($valueObject): string
-    {
-        return md5(serialize($valueObject));
+        return $unique;
     }
 
     /**
