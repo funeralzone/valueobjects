@@ -205,9 +205,101 @@ If the set is set to unique, if duplicate values are added to the set (at instan
 
 ### Usage of a set ###
 
-Coming soon.
+A set extends from PHP's [ArrayObject](http://php.net/manual/en/class.arrayobject.php) which means they can be used like standard arrays.
+
+```php
+$set = new SetOfValueObjects([$one, $two]);
+foreach($set as $value) {
+    // TODO: Do something with each value object
+}
+```
+
+Sets also have two additional useful methods:
+
+#### add ####
+
+Merges another set.
+
+```php
+$set = new SetOfValueObjects([$one, $two]);
+$anotherSet = new SetOfValueObjects([$three]);
+$mergedSet = $set->add($anotherSet);
+count($mergedSet) // Equals: 3
+```
+
+#### remove ####
+
+Removes values from a set by using another set as reference values.
+
+```php
+$set = new SetOfValueObjects([$one, $two, $three]);
+$anotherSet = new SetOfValueObjects([$one]);
+$remove = $set->add($anotherSet);
+count($remove) // Equals: 2
+```
 
 ## Nulls, NonNulls and Nullables ##
+
+This package allows you to deal with nullable value objects.
+
+First create a type of value object.
+
+```php
+interface PhoneNumber extends ValueObject
+{
+}
+```
+
+Implement a non-null version of the value object.
+
+```php
+final class NonNullPhoneNumber implements PhoneNumber, ValueObject
+{
+    use StringTrait;
+}
+```
+
+Implement a null version of the value object.
+
+```php
+final class NullPhoneNumber implements PhoneNumber, ValueObject
+{
+    use NullTrait;
+}
+```
+
+Implement a nullable version of the value object.
+
+```php
+final class NullablePhoneNumber extends Nullable implements PhoneNumber, ValueObject
+{
+    protected static function nonNullImplementation(): string
+    {
+        return NonNullPhoneNumber::class;
+    }
+    
+    protected static function nullImplementation(): string
+    {
+        return NullPhoneNumber::class;
+    }
+}
+```
+
+This 'nullable' handles automatic creation of either a null or a non-null version of the interface based on the native input. For example:
+
+```php
+$phoneNumber = NullablePhoneNumber::fromNative(null);
+```
+
+The `$phoneNumber` above will automatically use the `NullPhoneNumber` implementation specified above.
+
+Or:
+
+```php
+$phoneNumber = NullablePhoneNumber::fromNative('+44 73715525763');
+```
+
+The `$phoneNumber` above will automatically use the `NonNullPhoneNumber` implementation specified above.
 
 ## Enums ##
 
