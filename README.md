@@ -253,7 +253,7 @@ interface PhoneNumber extends ValueObject
 Implement a non-null version of the value object.
 
 ```php
-final class NonNullPhoneNumber implements PhoneNumber, ValueObject
+final class NonNullPhoneNumber implements PhoneNumber
 {
     use StringTrait;
 }
@@ -262,7 +262,7 @@ final class NonNullPhoneNumber implements PhoneNumber, ValueObject
 Implement a null version of the value object.
 
 ```php
-final class NullPhoneNumber implements PhoneNumber, ValueObject
+final class NullPhoneNumber implements PhoneNumber
 {
     use NullTrait;
 }
@@ -271,7 +271,7 @@ final class NullPhoneNumber implements PhoneNumber, ValueObject
 Implement a nullable version of the value object.
 
 ```php
-final class NullablePhoneNumber extends Nullable implements PhoneNumber, ValueObject
+final class NullablePhoneNumber extends Nullable implements PhoneNumber
 {
     protected static function nonNullImplementation(): string
     {
