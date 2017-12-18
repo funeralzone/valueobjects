@@ -303,4 +303,42 @@ The `$phoneNumber` above will automatically use the `NonNullPhoneNumber` impleme
 
 ## Enums ##
 
-Coming soon.
+Enums can be defined easily through use of the `EnumTrait`. Then, the enum values are simply listed as constants on the object.
+
+```php
+final class Fastening implements ValueObject
+{
+    use EnumTrait;
+    
+    public const BUTTON = 0;
+    public const CLIP = 1;
+    public const PIN = 2;
+    public const ZIP = 3;
+}
+```
+
+When dealing with value object serialisation, the constant values (not names) are used. So:
+
+```php
+$fastening = Fastening::fromNative(2);
+$fastening->toNative(); // Equals 2
+```
+
+In code, the trait utilises magic methods to create objects based on constant name like so:
+
+```php
+$fastening = Fastening::ZIP();
+$fastening->toNative(); // Equals 3
+```
+
+If your IDE supports code completion and you'd like to use named methods to create enums you can add the following PHPDoc block to your enum class:
+
+```php
+/**
+ * @method static Fastening BUTTON()
+ * @method static Fastening CLIP()
+ * @method static Fastening PIN()
+ * @method static Fastening ZIP()
+ */
+final class Fastening implements ValueObject
+```
