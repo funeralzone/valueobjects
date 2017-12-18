@@ -303,7 +303,7 @@ The `$phoneNumber` above will automatically use the `NonNullPhoneNumber` impleme
 
 ## Enums ##
 
-Enums can be defined easily through use of the `EnumTrait`. Then, the enum values are simply listed as constants on the object.
+Enums can be defined easily through use of the `EnumTrait`. Then, the enum values are simply listed as constants on the class.
 
 ```php
 final class Fastening implements ValueObject
