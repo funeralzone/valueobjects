@@ -28,7 +28,9 @@ trait CompositeTrait
      */
     public function toNative()
     {
-        return $this->propertiesToArray();
+        return array_map(function(ValueObject $valueObject) {
+            return $valueObject->toNative();
+        }, $this->propertiesToArray());
     }
 
     /**
