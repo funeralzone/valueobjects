@@ -1,0 +1,15 @@
+language: php
+php:
+  - '7.1'
+install: composer install --no-interaction
+script:
+#    Check PSR-2 coding standards
+  - ./vendor/bin/phpcs -n --standard=PSR2 --ignore=vendor/ .
+#    Run tests
+  - ./vendor/bin/phpunit
+branches:
+  only: master
+cache:
+  directories:
+  - vendor
+  - $HOME/.cache/composer
