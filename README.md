@@ -12,6 +12,10 @@ Through Composer, obviously:
 composer require funeralzone/valueobjects
 ```
 
+## Extensions ##
+
+This library only deals with fundamental values (scalars). We've also released an [extension library](https://github.com/funeralzone/valueobject-extensions) which provides a starting point for more complex values.
+
 ## Quick introduction to value objects ##
 
 A value object is a concept in domain driven design (DDD). They are objects whose equality is not dependent on identity.
