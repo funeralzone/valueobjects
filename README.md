@@ -21,7 +21,7 @@ This library only deals with fundamental values (scalars). We've also released a
 
 ## Our approach ##
 
-We've written up our philosophy to PHP value objects in [A better way of writing value objects in PHP](https://medium.com/funeralzone)
+We've written up our philosophy to PHP value objects in our [A better way of writing value objects in PHP](https://medium.com/funeralzone) article.
 
 ## Single value object ##
 
