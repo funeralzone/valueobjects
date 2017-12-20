@@ -241,7 +241,7 @@ Removes values from a set by using another set as reference values.
 ```php
 $set = new SetOfValueObjects([$one, $two, $three]);
 $anotherSet = new SetOfValueObjects([$one]);
-$remove = $set->add($anotherSet);
+$remove = $set->remove($anotherSet);
 count($remove) // Equals: 2
 ```
 
