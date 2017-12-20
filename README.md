@@ -1,5 +1,8 @@
 # valueobjects #
 
+[![Build Status](https://travis-ci.org/funeralzone/valueobjects.svg)](https://travis-ci.org/funeralzone/valueobjects)
+[![Version](https://img.shields.io/packagist/v/funeralzone/valueobjects.svg)](https://packagist.org/packages/funeralzone/valueobjects)
+
 ## Requirements ##
 
 Requires PHP 7.1
