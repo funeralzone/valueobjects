@@ -56,10 +56,26 @@ trait EnumTrait
     public static function fromNative($native)
     {
         if (!is_int($native)) {
-            throw new \InvalidArgumentException('Can only instantiate this object with an int.');
+            throw new \InvalidArgumentException('This method can only instantiate an object using an int.');
         }
 
         return new static($native);
+    }
+
+    public static function fromNativeString($native)
+    {
+        if (!is_string($native)) {
+            throw new \InvalidArgumentException('This method can only instantiate an object using a string.');
+        }
+
+        // Native must be a valid constant name
+        if (!in_array($native, static::constantKeys())) {
+            throw new \InvalidArgumentException($native . ' is not a valid value for this enum.');
+        }
+
+        $integer = static::constants()[$native];
+
+        return new static($integer);
     }
 
     /**

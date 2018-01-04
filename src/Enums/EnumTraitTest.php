@@ -66,6 +66,18 @@ final class EnumTraitTest extends TestCase
         $this->assertEquals(1, $banana->toNative());
         $this->assertEquals(2, $cantaloupe->toNative());
     }
+
+    public function test_can_instantiate_based_on_constant_name()
+    {
+        $banana = _EnumTrait::fromNativeString('BANANA');
+        $this->assertEquals(1, $banana->toNative());
+    }
+
+    public function test_throws_exception_when_attempting_to_instantiate_based_on_non_existent_constant_name()
+    {
+        $this->expectException(\Exception::class);
+        _EnumTrait::fromNativeString('NON-EXISTENT');
+    }
 }
 
 /**
