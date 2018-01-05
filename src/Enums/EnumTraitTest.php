@@ -40,20 +40,26 @@ final class EnumTraitTest extends TestCase
         $this->assertFalse($test1->isSame($test2));
     }
 
-    public function test_from_native_only_accepts_an_int()
+    public function test_from_native_only_accepts_a_string()
     {
         $this->expectException(InvalidArgumentException::class);
-        _EnumTrait::fromNative('1');
+        _EnumTrait::fromNative(1);
 
         $this->expectException(InvalidArgumentException::class);
         _EnumTrait::fromNative(null);
     }
 
-    public function test_to_native_returns_an_int()
+    public function test_from_native_creates_correct_value_based_on_string()
+    {
+        $test = _EnumTrait::fromNative('BANANA');
+        $this->assertEquals('BANANA', $test->toNative());
+    }
+
+    public function test_to_native_returns_correct_string()
     {
         $test = new _EnumTrait(0);
-        $this->assertTrue(is_int($test->toNative()));
-        $this->assertEquals(0, $test->toNative());
+        $this->assertTrue(is_string($test->toNative()));
+        $this->assertEquals('APPLE', $test->toNative());
     }
 
     public function test_magic_static_methods_return_objects_with_correct_value()
@@ -62,21 +68,9 @@ final class EnumTraitTest extends TestCase
         $banana = _EnumTrait::BANANA();
         $cantaloupe = _EnumTrait::CANTALOUPE();
 
-        $this->assertEquals(0, $apple->toNative());
-        $this->assertEquals(1, $banana->toNative());
-        $this->assertEquals(2, $cantaloupe->toNative());
-    }
-
-    public function test_can_instantiate_based_on_constant_name()
-    {
-        $banana = _EnumTrait::fromNativeString('BANANA');
-        $this->assertEquals(1, $banana->toNative());
-    }
-
-    public function test_throws_exception_when_attempting_to_instantiate_based_on_non_existent_constant_name()
-    {
-        $this->expectException(\Exception::class);
-        _EnumTrait::fromNativeString('NON-EXISTENT');
+        $this->assertEquals('APPLE', $apple->toNative());
+        $this->assertEquals('BANANA', $banana->toNative());
+        $this->assertEquals('CANTALOUPE', $cantaloupe->toNative());
     }
 }
 

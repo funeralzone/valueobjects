@@ -55,15 +55,6 @@ trait EnumTrait
      */
     public static function fromNative($native)
     {
-        if (!is_int($native)) {
-            throw new \InvalidArgumentException('This method can only instantiate an object using an int.');
-        }
-
-        return new static($native);
-    }
-
-    public static function fromNativeString($native)
-    {
         if (!is_string($native)) {
             throw new \InvalidArgumentException('This method can only instantiate an object using a string.');
         }
@@ -79,11 +70,11 @@ trait EnumTrait
     }
 
     /**
-     * @return int
+     * @return string
      */
     public function toNative()
     {
-        return $this->value;
+        return array_search($this->value, static::constants());
     }
 
     /**
