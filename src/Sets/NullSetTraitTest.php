@@ -13,42 +13,36 @@ use PHPUnit\Framework\TestCase;
 
 final class NullSetTraitTest extends TestCase
 {
-    public function test_offsetGet_throws_exception()
+    public function test_offsetGet_returns_null()
     {
         $test = new _NullSetTrait;
-
-        $this->expectException(Exception::class);
-        $test['anything'];
+        $this->assertNull($test['anything']);
     }
 
-    public function test_offsetUnset_throws_exception()
+    public function test_offsetUnset_throws_no_exception()
     {
         $test = new _NullSetTrait;
-
-        $this->expectException(Exception::class);
         unset($test['anything']);
+        $this->assertTrue(true);
     }
 
     public function test_count_returns_zero()
     {
         $test = new _NullSetTrait;
-
         $this->assertEquals(0, count($test));
     }
 
     public function test_offsetExists_returns_false()
     {
         $test = new _NullSetTrait;
-
-        $this->assertFalse(array_key_exists('any', $test));
+        $this->assertFalse(isset($test['any']));
     }
 
-    public function test_offsetSet_throws_exception()
+    public function test_offsetSet_throws_no_exception()
     {
         $test = new _NullSetTrait;
-
-        $this->expectException(Exception::class);
         $test['any'] = 'foo';
+        $this->assertTrue(true);
     }
 
     public function test_can_iterate()
@@ -56,7 +50,6 @@ final class NullSetTraitTest extends TestCase
         $test = new _NullSetTrait;
 
         $i = 0;
-
         foreach ($test as $i) {
             $i++;
         }

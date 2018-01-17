@@ -14,6 +14,7 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
      * NonNullSet constructor.
      * @param array $input
      * @throws SetsCanOnlyContainValueObjects
+     * @throws \ChrisHarrison\ArrayOf\Exceptions\InvalidEnforcementType
      */
     public function __construct(array $input = [])
     {
