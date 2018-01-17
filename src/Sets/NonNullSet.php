@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Funeralzone\ValueObjects\Sets;
 
 use ChrisHarrison\ArrayOf\ImmutableArrayOf;
+use Funeralzone\ValueObjects\Set;
 use Funeralzone\ValueObjects\ValueObject;
 
-abstract class SetOfValueObjects extends ImmutableArrayOf implements ValueObject
+abstract class NonNullSet extends ImmutableArrayOf implements Set
 {
     /**
-     * SetOfValueObjects constructor.
+     * NonNullSet constructor.
      * @param array $input
      * @throws SetsCanOnlyContainValueObjects
      */
