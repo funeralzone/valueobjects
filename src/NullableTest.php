@@ -70,6 +70,11 @@ final class NullableTest extends TestCase
         $test = _Nullable::fromNative('');
         $this->assertEquals('non-null-implementation', $test->toNative());
     }
+
+    public function tearDown()
+    {
+        Mockery::close();
+    }
 }
 
 interface TestObject extends ValueObject
