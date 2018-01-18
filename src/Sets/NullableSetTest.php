@@ -160,6 +160,22 @@ final class NullableSetTest extends TestCase
         $this->assertFalse($test2->contains($test2));
     }
 
+    public function test_to_array_gets_proxied()
+    {
+        $mockValueObject1 = Mockery::mock(Set::class);
+        $mockValueObject1->shouldReceive('toArray')
+            ->andReturn([0,1]);
+        $mockValueObject2 = Mockery::mock(Set::class);
+        $mockValueObject2->shouldReceive('toArray')
+            ->andReturn([0,1,2]);
+
+        $test1 = new _NullableSet($mockValueObject1);
+        $test2 = new _NullableSet($mockValueObject2);
+
+        $this->assertEquals(2, count($test1->toArray()));
+        $this->assertEquals(3, count($test2->toArray()));
+    }
+
     public function tearDown()
     {
         Mockery::close();

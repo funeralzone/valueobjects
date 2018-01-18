@@ -42,6 +42,11 @@ abstract class NullableSet extends Nullable implements Set
         return $this->value->remove($set);
     }
 
+    public function toArray(): array
+    {
+        return $this->value->toArray();
+    }
+
     /**
      * @param ValueObject $value
      * @return bool

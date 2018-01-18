@@ -39,6 +39,14 @@ trait NullSetTrait
     }
 
     /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return [];
+    }
+
+    /**
      * @return NullSetIterator
      */
     public function getIterator()

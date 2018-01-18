@@ -23,4 +23,9 @@ interface Set extends ValueObject, \IteratorAggregate, \ArrayAccess, \Countable
      * @return bool
      */
     public function contains(ValueObject $value): bool;
+
+    /**
+     * @return array
+     */
+    public function toArray(): array;
 }

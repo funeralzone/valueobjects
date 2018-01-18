@@ -11,6 +11,7 @@ use Funeralzone\ValueObjects\TestClasses\NonNullSetOfNonValueObjects;
 use Funeralzone\ValueObjects\TestClasses\TestValueObject;
 use Funeralzone\ValueObjects\TestClasses\UniqueNonNullSet;
 use Funeralzone\ValueObjects\ValueObject;
+use function is_array;
 use PHPUnit\Framework\TestCase;
 use Exception;
 
@@ -206,5 +207,19 @@ final class NonNullSetTest extends TestCase
         ]);
 
         $this->assertFalse($set->contains(TestValueObject::fromNative(300)));
+    }
+
+    public function test_to_array_returns_internal_values()
+    {
+        $set = new NonUniqueNonNullSet([
+            TestValueObject::fromNative(100),
+            TestValueObject::fromNative(200),
+        ]);
+
+        $test = $set->toArray();
+
+        $this->assertTrue(is_array($test));
+        $this->assertEquals(2, count($test));
+        $this->assertInstanceOf(TestValueObject::class, $test[0]);
     }
 }
