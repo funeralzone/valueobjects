@@ -6,8 +6,6 @@ declare(strict_types=1);
 
 namespace Funeralzone\ValueObjects\Sets;
 
-use function array_key_exists;
-use Exception;
 use Funeralzone\ValueObjects\Set;
 use PHPUnit\Framework\TestCase;
 
