@@ -45,6 +45,11 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
     {
         $compare1 = $this->toNative();
         $compare2 = $object->toNative();
+
+        if (!is_array($compare1) || !is_array($compare2)) {
+            return false;
+        }
+
         sort($compare1);
         sort($compare2);
 
@@ -70,6 +75,14 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
         return array_map(function (ValueObject $object) {
             return $object->toNative();
         }, (array) $this);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return (array) $this;
     }
 
     /**
