@@ -187,4 +187,24 @@ final class NonNullSetTest extends TestCase
         $this->assertEquals(200, $value1->toNative());
         $this->assertEquals(300, $value2->toNative());
     }
+
+    public function test_contains_returns_true_when_value_exists_in_set()
+    {
+        $set = new NonUniqueNonNullSet([
+            TestValueObject::fromNative(100),
+            TestValueObject::fromNative(200),
+        ]);
+
+        $this->assertTrue($set->contains(TestValueObject::fromNative(200)));
+    }
+
+    public function test_contains_returns_false_when_value_does_not_exist_in_set()
+    {
+        $set = new NonUniqueNonNullSet([
+            TestValueObject::fromNative(100),
+            TestValueObject::fromNative(200),
+        ]);
+
+        $this->assertFalse($set->contains(TestValueObject::fromNative(300)));
+    }
 }

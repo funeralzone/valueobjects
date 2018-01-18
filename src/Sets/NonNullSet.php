@@ -95,6 +95,21 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
     }
 
     /**
+     * @param ValueObject $value
+     * @return bool
+     */
+    public function contains(ValueObject $value): bool
+    {
+        foreach ((array) $this as $item) {
+            /* @var ValueObject $item */
+            if ($item->isSame($value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * @param ValueObject $object
      * @return static
      */
