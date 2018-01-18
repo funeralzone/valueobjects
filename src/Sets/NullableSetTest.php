@@ -112,6 +112,54 @@ final class NullableSetTest extends TestCase
         $this->assertFalse($test2->getIterator());
     }
 
+    public function test_add_gets_proxied()
+    {
+        $mockValueObject1 = Mockery::mock(Set::class);
+        $mockValueObject1->shouldReceive('add')
+            ->andReturn(true);
+        $mockValueObject2 = Mockery::mock(Set::class);
+        $mockValueObject2->shouldReceive('add')
+            ->andReturn(false);
+
+        $test1 = new _NullableSet($mockValueObject1);
+        $test2 = new _NullableSet($mockValueObject2);
+
+        $this->assertTrue($test1->add($test1));
+        $this->assertFalse($test2->add($test2));
+    }
+
+    public function test_remove_gets_proxied()
+    {
+        $mockValueObject1 = Mockery::mock(Set::class);
+        $mockValueObject1->shouldReceive('remove')
+            ->andReturn(true);
+        $mockValueObject2 = Mockery::mock(Set::class);
+        $mockValueObject2->shouldReceive('remove')
+            ->andReturn(false);
+
+        $test1 = new _NullableSet($mockValueObject1);
+        $test2 = new _NullableSet($mockValueObject2);
+
+        $this->assertTrue($test1->remove($test1));
+        $this->assertFalse($test2->remove($test2));
+    }
+
+    public function test_contains_gets_proxied()
+    {
+        $mockValueObject1 = Mockery::mock(Set::class);
+        $mockValueObject1->shouldReceive('contains')
+            ->andReturn(true);
+        $mockValueObject2 = Mockery::mock(Set::class);
+        $mockValueObject2->shouldReceive('contains')
+            ->andReturn(false);
+
+        $test1 = new _NullableSet($mockValueObject1);
+        $test2 = new _NullableSet($mockValueObject2);
+
+        $this->assertTrue($test1->contains($test1));
+        $this->assertFalse($test2->contains($test2));
+    }
+
     public function tearDown()
     {
         Mockery::close();

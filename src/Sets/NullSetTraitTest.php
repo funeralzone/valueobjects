@@ -7,6 +7,7 @@ declare(strict_types=1);
 namespace Funeralzone\ValueObjects\Sets;
 
 use Funeralzone\ValueObjects\Set;
+use Funeralzone\ValueObjects\TestClasses\TestValueObject;
 use PHPUnit\Framework\TestCase;
 
 final class NullSetTraitTest extends TestCase
@@ -53,6 +54,26 @@ final class NullSetTraitTest extends TestCase
         }
 
         $this->assertEquals(0, $i);
+    }
+
+    public function test_add_returns_whatever_was_added()
+    {
+        $test = new _NullSetTrait;
+        $add = new _NullSetTrait;
+        $this->assertEquals($add, $test->add($add));
+    }
+
+    public function test_remove_returns_self()
+    {
+        $test = new _NullSetTrait;
+        $add = new _NullSetTrait;
+        $this->assertEquals($test, $test->add($add));
+    }
+
+    public function test_contains_returns_false()
+    {
+        $test = new _NullSetTrait;
+        $this->assertFalse($test->contains(TestValueObject::fromNative('test')));
     }
 }
 
