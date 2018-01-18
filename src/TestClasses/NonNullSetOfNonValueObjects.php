@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Funeralzone\ValueObjects\TestClasses;
 
-use Funeralzone\ValueObjects\Sets\SetOfValueObjects;
+use Funeralzone\ValueObjects\Sets\NonNullSet;
 
-final class UniqueSet extends SetOfValueObjects
+final class NonNullSetOfNonValueObjects extends NonNullSet
 {
     protected function typeToEnforce(): string
     {
-        return TestValueObject::class;
+        return NonValueObject::class;
     }
 
     public static function valuesShouldBeUnique(): bool

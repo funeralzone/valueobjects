@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Funeralzone\ValueObjects\TestClasses;
 
-use Funeralzone\ValueObjects\Sets\SetOfValueObjects;
+use Funeralzone\ValueObjects\Sets\NonNullSet;
 
-final class NonUniqueSet extends SetOfValueObjects
+final class UniqueNonNullSet extends NonNullSet
 {
     protected function typeToEnforce(): string
     {
@@ -15,6 +15,6 @@ final class NonUniqueSet extends SetOfValueObjects
 
     public static function valuesShouldBeUnique(): bool
     {
-        return false;
+        return true;
     }
 }

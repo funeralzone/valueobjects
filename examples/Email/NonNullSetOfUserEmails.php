@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Funeralzone\ValueObjects\Examples\Email;
 
-use Funeralzone\ValueObjects\Sets\SetOfValueObjects;
+use Funeralzone\ValueObjects\Sets\NonNullSet;
 
-final class SetOfUserEmails extends SetOfValueObjects
+final class NonNullSetOfUserEmails extends NonNullSet
 {
     /**
      * @return string
