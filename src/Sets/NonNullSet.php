@@ -74,7 +74,7 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
     {
         return array_map(function (ValueObject $object) {
             return $object->toNative();
-        }, (array) $this);
+        }, $this->toArray());
     }
 
     /**
@@ -91,7 +91,7 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
      */
     public function add($set)
     {
-        return new static(array_merge((array) $this, (array) $set));
+        return new static(array_merge($this->toArray(), $set->toArray()));
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
     public function remove($set)
     {
         $output = $this;
-        foreach ((array) $set as $object) {
+        foreach ($set->toArray() as $object) {
             $output = $output->removeByValue($object);
         }
         return $output;
@@ -113,7 +113,7 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
      */
     public function contains(ValueObject $value): bool
     {
-        foreach ((array) $this as $item) {
+        foreach ($this->toArray() as $item) {
             /* @var ValueObject $item */
             if ($item->isSame($value)) {
                 return true;
@@ -128,7 +128,7 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
      */
     private function removeByValue(ValueObject $object)
     {
-        return new static(array_values(array_filter((array) $this, function (ValueObject $compare) use ($object) {
+        return new static(array_values(array_filter($this->toArray(), function (ValueObject $compare) use ($object) {
             return (!$compare->isSame($object));
         })));
     }
