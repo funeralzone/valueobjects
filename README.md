@@ -59,6 +59,48 @@ In our case, a user's email has other domain logic that we can encapsulate in ou
 
 You can see an example of how to implement single value objects in the examples directory.
 
+## Enums ##
+
+Enums can be defined easily through use of the `EnumTrait`. Then, the enum values are simply listed as constants on the class.
+
+```php
+final class Fastening implements ValueObject
+{
+    use EnumTrait;
+    
+    public const BUTTON = 0;
+    public const CLIP = 1;
+    public const PIN = 2;
+    public const ZIP = 3;
+}
+```
+
+When dealing with value object serialisation, the constant values (not names) are used. So:
+
+```php
+$fastening = Fastening::fromNative(2);
+$fastening->toNative(); // Equals 2
+```
+
+In code, the trait utilises magic methods to create objects based on constant name like so:
+
+```php
+$fastening = Fastening::ZIP();
+$fastening->toNative(); // Equals 3
+```
+
+If your IDE supports code completion and you'd like to use named methods to create enums you can add the following PHPDoc block to your enum class:
+
+```php
+/**
+ * @method static Fastening BUTTON()
+ * @method static Fastening CLIP()
+ * @method static Fastening PIN()
+ * @method static Fastening ZIP()
+ */
+final class Fastening implements ValueObject
+```
+
 ## Composite value objects ##
 
 A composite value object is a more complex value which is made from other values.
@@ -106,69 +148,6 @@ The `CompositeTrait` does not implement `fromNative`. We leave the construction 
 ```
 
 You can see an example of how to implement composite objects in the examples directory.
-
-## Sets of value objects ##
-
-A set of value objects can be represented by leveraging the `SetOfValueObjects` abstract class.
-
-```php
-final class SetOfLocations extends SetOfValueObjects implements ValueObject
-{
-    protected function typeToEnforce(): string
-    {
-        return Location::class;
-    }
-
-    public static function valuesShouldBeUnique(): bool
-    {
-        return true;
-    }
-}
-```
-
-A set of value objects is itself a `ValueObject` and implements all of the standard methods.
-
-There are two abstract methods that need to be implemented.
-
-* `typeToEnforce` should return a string of the class name of the value object that you want to make a set of.
-* `valuesShouldBeUnique` should return a boolean representing whether you want to force the set to be unique.
-
-If the set is set to unique, if duplicate values are added to the set (at instantiation or through the `add` method) the duplicates are filtered out.
-
-### Usage of a set ###
-
-A set extends from PHP's [ArrayObject](http://php.net/manual/en/class.arrayobject.php) which means they can be used like standard arrays.
-
-```php
-$set = new SetOfValueObjects([$one, $two]);
-foreach($set as $value) {
-    // TODO: Do something with each value object
-}
-```
-
-Sets also have two additional useful methods:
-
-#### add ####
-
-Merges another set.
-
-```php
-$set = new SetOfValueObjects([$one, $two]);
-$anotherSet = new SetOfValueObjects([$three]);
-$mergedSet = $set->add($anotherSet);
-count($mergedSet) // Equals: 3
-```
-
-#### remove ####
-
-Removes values from a set by using another set as reference values.
-
-```php
-$set = new SetOfValueObjects([$one, $two, $three]);
-$anotherSet = new SetOfValueObjects([$one]);
-$remove = $set->remove($anotherSet);
-count($remove) // Equals: 2
-```
 
 ## Nulls, NonNulls and Nullables ##
 
@@ -233,44 +212,106 @@ $phoneNumber = NullablePhoneNumber::fromNative('+44 73715525763');
 
 The `$phoneNumber` above will automatically use the `NonNullPhoneNumber` implementation specified above.
 
-## Enums ##
+## Sets of value objects ##
 
-Enums can be defined easily through use of the `EnumTrait`. Then, the enum values are simply listed as constants on the class.
+A set of value objects should implement the `Set` interface. It's just an extension of the `ValueObject` interface with a few simple additions.
 
 ```php
-final class Fastening implements ValueObject
+interface Set extends ValueObject, \IteratorAggregate, \ArrayAccess, \Countable
 {
-    use EnumTrait;
-    
-    public const BUTTON = 0;
-    public const CLIP = 1;
-    public const PIN = 2;
-    public const ZIP = 3;
+    public function add($set);
+    public function remove($set);
+    public function contains(ValueObject $value): bool;
+    public function toArray(): array;
 }
 ```
 
-When dealing with value object serialisation, the constant values (not names) are used. So:
+* `add` Add values from another set to the current set.
+* `remove` Remove all the values contained in another set from the current set.
+* `contains` Returns `true` if the value exists in the current set.
+* `toArray` Returns a simple PHP array containing all of the value objects.
+
+The other interfaces that the `Set` interface extends from (`\IteratorAggregate`, `\ArrayAccess`, `\Countable`) are for accessing the set object as though it was an array.
+
+### Non-null sets ###
+
+The library provides a default implementation of the interface.
 
 ```php
-$fastening = Fastening::fromNative(2);
-$fastening->toNative(); // Equals 2
+final class SetOfLocations extends NonNullSet implements Set
+{
+    protected function typeToEnforce(): string
+    {
+        return Location::class;
+    }
+
+    public static function valuesShouldBeUnique(): bool
+    {
+        return true;
+    }
+}
 ```
 
-In code, the trait utilises magic methods to create objects based on constant name like so:
+There are two abstract methods that need to be implemented.
 
+* `typeToEnforce` should return a string of the class name of the value object that you want to make a set of.
+* `valuesShouldBeUnique` should return a boolean representing whether you want to force the set to be unique.
+
+If the set is set to unique, if duplicate values are added to the set (at instantiation or through the `add` method) the duplicates are filtered out.
+
+### Null and nullable sets ###
+
+Just like standard value objects there are some constructs to help with creating nullable and null sets. See the Nulls, NonNulls and Nullables section for more information.
+
+* `NullableSet` The set equivalent of `Nullable`.
+* `NullSetTrait` The set equivalent of the `NullTrait`.
+
+### Usage of sets ###
+
+#### Iteration, access and counting ####
 ```php
-$fastening = Fastening::ZIP();
-$fastening->toNative(); // Equals 3
+// Iteration
+$set = new SetOfLocations([$one, $two]);
+foreach($set as $value) {
+    // TODO: Do something with each value object
+}
+
+// Access
+$one = $set[0];
+$two = $set[1];
+
+//Counting
+$count = count($set); // Returns 2
 ```
 
-If your IDE supports code completion and you'd like to use named methods to create enums you can add the following PHPDoc block to your enum class:
+#### add ####
+
+Merges another set.
 
 ```php
-/**
- * @method static Fastening BUTTON()
- * @method static Fastening CLIP()
- * @method static Fastening PIN()
- * @method static Fastening ZIP()
- */
-final class Fastening implements ValueObject
+$set = new SetOfLocations([$one, $two]);
+$anotherSet = new SetOfLocations([$three]);
+$mergedSet = $set->add($anotherSet);
+count($mergedSet) // Equals: 3
+```
+
+#### remove ####
+
+Removes values from a set by using another set as reference values.
+
+```php
+$set = new SetOfLocations([$one, $two, $three]);
+$anotherSet = new SetOfLocations([$one]);
+$remove = $set->remove($anotherSet);
+count($remove) // Equals: 2
+```
+
+#### contains ####
+
+Checks whether a set contains a particular value object.
+
+```php
+$set = new SetOfLocations([$one, $two, $three]);
+$one = new Location(0);
+$check = $set->contains($one);
 ```
