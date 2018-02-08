@@ -75,18 +75,18 @@ final class Fastening implements ValueObject
 }
 ```
 
-When dealing with value object serialisation, the constant values (not names) are used. So:
+When dealing with value object serialisation, the constant names are used. They are case-sensitive. So:
 
 ```php
-$fastening = Fastening::fromNative(2);
-$fastening->toNative(); // Equals 2
+$fastening = Fastening::fromNative('BUTTON');
+$fastening->toNative(); // Equals to string: 'BUTTON'
 ```
 
 In code, the trait utilises magic methods to create objects based on constant name like so:
 
 ```php
 $fastening = Fastening::ZIP();
-$fastening->toNative(); // Equals 3
+$fastening->toNative(); // Equals 'ZIP'
 ```
 
 If your IDE supports code completion and you'd like to use named methods to create enums you can add the following PHPDoc block to your enum class:
