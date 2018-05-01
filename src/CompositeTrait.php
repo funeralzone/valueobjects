@@ -11,12 +11,16 @@ trait CompositeTrait
      */
     public function isNull(): bool
     {
-        return array_reduce($this->toNative(), function ($carry, $value) {
-            if (!$carry) {
-                return $carry;
+        $subValues = $this->propertiesToArray();
+
+        foreach ($subValues as $value) {
+            /* @var ValueObject $value */
+            if (!$value->isNull()) {
+                return false;
             }
-            return ($value === null);
-        }, true);
+        }
+
+        return true;
     }
 
     /**
