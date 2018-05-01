@@ -6,29 +6,62 @@ declare(strict_types=1);
 
 namespace Funeralzone\ValueObjects;
 
+use Funeralzone\ValueObjects\TestClasses\NullValue;
 use Funeralzone\ValueObjects\TestClasses\TestValueObject;
 use PHPUnit\Framework\TestCase;
 
 final class CompositeTraitTest extends TestCase
 {
-    public function test_is_null_returns_false()
+    private function composite(): _CompositeTrait
     {
-        $test = new _CompositeTrait(100);
+        return new _CompositeTrait(
+            new TestValueObject('A'),
+            new TestValueObject('B')
+        );
+    }
+
+    public function test_is_null_returns_false_when_not_all_sub_values_are_null()
+    {
+        $test = new _CompositeTrait(
+            new TestValueObject(null),
+            new TestValueObject('A')
+        );
         $this->assertFalse($test->isNull());
+
+        $test = new _CompositeTrait(
+            new TestValueObject(null),
+            new TestValueObject(false)
+        );
+        $this->assertFalse($test->isNull());
+    }
+
+    public function test_is_null_returns_true_when_all_sub_values_are_null()
+    {
+        $test = new _CompositeTrait(
+            new TestValueObject(null),
+            new TestValueObject(null)
+        );
+        $this->assertTrue($test->isNull());
     }
 
     public function test_is_same_returns_true_if_values_are_the_same()
     {
-        $test1 = new _CompositeTrait(100);
-        $test2 = new _CompositeTrait(100);
+        $test1 = $this->composite();
+        $test2 = $this->composite();
 
         $this->assertTrue($test1->isSame($test2));
     }
 
     public function test_is_same_returns_false_if_values_differ()
     {
-        $test1 = new _CompositeTrait(100);
-        $test2 = new _CompositeTrait(200);
+        $test1 = new _CompositeTrait(
+            new TestValueObject('A'),
+            new TestValueObject('B')
+        );
+        $test2 = new _CompositeTrait(
+            new TestValueObject('A'),
+            new TestValueObject('C')
+        );
 
         $this->assertFalse($test1->isSame($test2));
     }
@@ -36,10 +69,11 @@ final class CompositeTraitTest extends TestCase
     public function test_to_native_returns_private_properties_as_array()
     {
         $expectedArray = [
-            'testValue' => 100
+            'a' => 'A',
+            'b' => 'B'
         ];
 
-        $test = new _CompositeTrait(100);
+        $test = $this->composite();
 
         $this->assertEquals($expectedArray, $test->toNative());
     }
@@ -49,16 +83,23 @@ final class _CompositeTrait implements ValueObject
 {
     use CompositeTrait;
 
-    private $testValue = 100;
+    private $a;
+    private $b;
 
-    public function __construct(int $testValue)
+    public function __construct(ValueObject $a, ValueObject $b)
     {
-        $this->testValue = TestValueObject::fromNative($testValue);
+        $this->a = $a;
+        $this->b = $b;
     }
 
-    public function getTestValue(): TestValueObject
+    public function getA(): ValueObject
     {
-        return $this->testValue;
+        return $this->a;
+    }
+
+    public function getB(): ValueObject
+    {
+        return $this->b;
     }
 
     public static function fromNative($native)
