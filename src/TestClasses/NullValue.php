@@ -27,5 +27,4 @@ final class NullValue implements ValueObject
     {
         return null;
     }
-
 }
