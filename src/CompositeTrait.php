@@ -11,7 +11,16 @@ trait CompositeTrait
      */
     public function isNull(): bool
     {
-        return false;
+        $subValues = $this->propertiesToArray();
+
+        foreach ($subValues as $value) {
+            /* @var ValueObject $value */
+            if (!$value->isNull()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /**
