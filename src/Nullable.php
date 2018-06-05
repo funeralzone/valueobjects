@@ -57,6 +57,14 @@ abstract class Nullable implements ValueObject
     }
 
     /**
+     * @return static
+     */
+    public static function null()
+    {
+        return static::fromNative(null);
+    }
+
+    /**
      * @return mixed
      */
     public function toNative()

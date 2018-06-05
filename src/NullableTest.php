@@ -71,6 +71,12 @@ final class NullableTest extends TestCase
         $this->assertEquals('non-null-implementation', $test->toNative());
     }
 
+    public function test_null_creates_a_nullable_backed_by_the_null_implementation()
+    {
+        $test = _Nullable::null();
+        $this->assertEquals('null-implementation', $test->toNative());
+    }
+
     public function tearDown()
     {
         Mockery::close();
