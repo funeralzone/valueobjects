@@ -30,7 +30,7 @@ abstract class NullableSet extends Nullable implements Set
      */
     public function add($set)
     {
-        return $this->value->add($set);
+        return new static($this->value->add($set));
     }
 
     /**
@@ -39,7 +39,7 @@ abstract class NullableSet extends Nullable implements Set
      */
     public function remove($set)
     {
-        return $this->value->remove($set);
+        return new static($this->value->remove($set));
     }
 
     public function toArray(): array
