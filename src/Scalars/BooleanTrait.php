@@ -59,4 +59,20 @@ trait BooleanTrait
     {
         return $this->bool;
     }
+
+    /**
+     * @return static
+     */
+    public static function true()
+    {
+        return new static(true);
+    }
+
+    /**
+     * @return static
+     */
+    public static function false()
+    {
+        return new static(false);
+    }
 }
