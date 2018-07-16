@@ -28,4 +28,9 @@ interface Set extends ValueObject, \IteratorAggregate, \ArrayAccess, \Countable
      * @return array
      */
     public function toArray(): array;
+
+    /**
+     * @return static
+     */
+    public function nonNullValues();
 }

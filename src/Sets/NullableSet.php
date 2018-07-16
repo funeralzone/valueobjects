@@ -42,9 +42,20 @@ abstract class NullableSet extends Nullable implements Set
         return new static($this->value->remove($set));
     }
 
+    /**
+     * @return array
+     */
     public function toArray(): array
     {
         return $this->value->toArray();
+    }
+
+    /**
+     * @return static
+     */
+    public function nonNullValues()
+    {
+        return new static($this->value->nonNullValues());
     }
 
     /**

@@ -47,6 +47,14 @@ trait NullSetTrait
     }
 
     /**
+     * @return static
+     */
+    public function nonNullValues()
+    {
+        return $this;
+    }
+
+    /**
      * @return NullSetIterator
      */
     public function getIterator()

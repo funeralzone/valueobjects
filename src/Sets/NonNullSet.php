@@ -86,6 +86,16 @@ abstract class NonNullSet extends ImmutableArrayOf implements Set
     }
 
     /**
+     * @return static
+     */
+    public function nonNullValues()
+    {
+        return new static(array_values(array_filter($this->toArray(), function (ValueObject $value) {
+            return !$value->isNull();
+        })));
+    }
+
+    /**
      * @param static $set
      * @return static
      */
