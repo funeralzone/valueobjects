@@ -222,4 +222,23 @@ final class NonNullSetTest extends TestCase
         $this->assertEquals(2, count($test));
         $this->assertInstanceOf(TestValueObject::class, $test[0]);
     }
+
+    public function test_nonNullValues_only_returns_values_that_do_not_equate_to_null()
+    {
+        $set = new NonUniqueNonNullSet([
+            TestValueObject::fromNative(100),
+            TestValueObject::fromNative(null),
+            TestValueObject::fromNative(300),
+            TestValueObject::fromNative(200),
+            TestValueObject::fromNative(null),
+        ]);
+
+        $test = $set->nonNullValues();
+
+        $this->assertInstanceOf(NonUniqueNonNullSet::class, $test);
+        $this->assertEquals(3, count($test));
+        $this->assertEquals(100, $test->toArray()[0]->toNative());
+        $this->assertEquals(300, $test->toArray()[1]->toNative());
+        $this->assertEquals(200, $test->toArray()[2]->toNative());
+    }
 }

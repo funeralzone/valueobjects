@@ -85,6 +85,16 @@ final class NullSetTraitTest extends TestCase
         $this->assertTrue(is_array($test));
         $this->assertEquals(0, count($test));
     }
+
+    public function test_nonNullValues_returns_blank_array()
+    {
+        $set = new _NullSetTrait;
+
+        $test = $set->toArray();
+
+        $this->assertTrue(is_array($test));
+        $this->assertEquals(0, count($test));
+    }
 }
 
 final class _NullSetTrait implements Set
