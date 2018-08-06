@@ -75,4 +75,20 @@ trait BooleanTrait
     {
         return new static(false);
     }
+
+    /**
+     * @return bool
+     */
+    public function isTrue(): bool
+    {
+        return ($this->toNative());
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFalse(): bool
+    {
+        return (!$this->toNative());
+    }
 }
