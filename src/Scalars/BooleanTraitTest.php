@@ -63,6 +63,30 @@ final class BooleanTraitTest extends TestCase
         $test = _BooleanTrait::false();
         $this->assertFalse($test->toNative());
     }
+
+    public function test_is_true_returns_true_when_true()
+    {
+        $test = _BooleanTrait::true();
+        $this->assertTrue($test->isTrue());
+    }
+
+    public function test_is_true_returns_false_when_false()
+    {
+        $test = _BooleanTrait::false();
+        $this->assertFalse($test->isTrue());
+    }
+
+    public function test_is_false_returns_true_when_false()
+    {
+        $test = _BooleanTrait::false();
+        $this->assertTrue($test->isFalse());
+    }
+
+    public function test_is_false_returns_false_when_true()
+    {
+        $test = _BooleanTrait::true();
+        $this->assertFalse($test->isFalse());
+    }
 }
 
 final class _BooleanTrait implements ValueObject
