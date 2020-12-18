@@ -8,8 +8,6 @@ script:
   - ./vendor/bin/phpcs -n --standard=PSR2 --ignore=vendor/ .
 #    Run tests
   - ./vendor/bin/phpunit
-branches:
-  only: master
 cache:
   directories:
   - vendor
