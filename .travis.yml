@@ -1,6 +1,7 @@
 language: php
 php:
   - '7.1'
+  - '8.0'
 install: composer install --no-interaction
 script:
 #    Check PSR-2 coding standards
